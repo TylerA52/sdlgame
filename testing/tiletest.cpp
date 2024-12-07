@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    SDL_Texture* filberton = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/Images/Untitled.png");    
+    SDL_Texture* filberton = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/Images/notlink.png");    
     
 
     if (!filberton) {
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
     int tileWidth = 16;
     int tileHeight = 16;
     int tilesPerRow = 8;
-    SDL_Rect imageRect = { windowWidth / 2 - 50, windowHeight / 2 - 50, 250, 250 };
+    SDL_Rect imageRect = { windowWidth / 2 - 50, windowHeight / 2 - 50, 72, 72};
 
     bool isRunning = true;
     SDL_Event event;
