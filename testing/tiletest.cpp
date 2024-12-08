@@ -5,7 +5,6 @@
 
 
 void renderMap(SDL_Renderer* renderer, SDL_Texture* tileset, int tileMap[16][22], int tileWidth, int tileHeight, int scale);
-
 void renderTile(SDL_Renderer* renderer, SDL_Texture* tileset, int tileIndex, int x, int y, int tileWidth, int tileHeight, int scale);
 
 int tileMap[16][22] = {
@@ -88,7 +87,7 @@ int main(int argc, char* argv[]) {
     int tileWidth = 16;
     int tileHeight = 16;
     int tilesPerRow = 8;
-    SDL_Rect imageRect = { windowWidth / 2 - 50, windowHeight / 2 - 50, 72, 72};
+    SDL_Rect imageRect = {164, 224, 72, 72};
 
     bool isRunning = true;
     SDL_Event event;
@@ -102,16 +101,16 @@ int main(int argc, char* argv[]) {
 
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_w) {
-                        imageRect.y -= 20;
+                        imageRect.y -= 24;
                     }
                     if (event.key.keysym.sym == SDLK_a) {
-                        imageRect.x -= 20;
+                        imageRect.x -= 24;
                     }
                     if (event.key.keysym.sym == SDLK_s) {
-                        imageRect.y += 20;  
+                        imageRect.y += 24;  
                     }
                     if (event.key.keysym.sym == SDLK_d) {
-                        imageRect.x += 20;
+                        imageRect.x += 24;
                     }
                     break;
             }
@@ -137,8 +136,8 @@ int main(int argc, char* argv[]) {
 }
 
 void renderMap(SDL_Renderer* renderer, SDL_Texture* tileset, int tileMap[16][22], int tileWidth, int tileHeight, int scale) {
-    for (int y = 0; y < 16; ++y) {
-        for (int x = 0; x < 22; ++x) {
+    for (int y = 0; y < 16; y++) {
+        for (int x = 0; x < 22; x++) {
             int tileIndex = tileMap[y][x];
             renderTile(renderer, tileset, tileIndex, x * tileWidth * scale, y * tileHeight * scale, tileWidth, tileHeight, scale);
         }
