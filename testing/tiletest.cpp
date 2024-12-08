@@ -64,18 +64,20 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    SDL_Texture* filberton = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/Images/notlink.png");    
-    
+    // Map Tileset
 
-    if (!filberton) {
-        std::cerr << "Error loading image: " << IMG_GetError() << '\n';
+    SDL_Texture* tileset = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/tileset/basictiles.png");
+    if (!tileset) {
+        std::cerr << "Error loading tileset image: " << IMG_GetError() << '\n';
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
 
-    SDL_Texture* tileset = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/tileset/basictiles.png");
+    // Character sprites
+
+    SDL_Texture* sprites = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/Images/characters.png");
     if (!tileset) {
         std::cerr << "Error loading tileset image: " << IMG_GetError() << '\n';
         SDL_DestroyRenderer(renderer);
@@ -87,9 +89,14 @@ int main(int argc, char* argv[]) {
     int tileWidth = 16;
     int tileHeight = 16;
     int tilesPerRow = 8;
-    SDL_Rect imageRect = {164, 224, 72, 72};
+
+    int spritesPerRow = 12;
+    int spriteIndex = 3;
+
+    SDL_Rect playerRect = {164, 224, 72, 72};
 
     bool isRunning = true;
+
     SDL_Event event;
 
     while (isRunning) {
@@ -101,33 +108,47 @@ int main(int argc, char* argv[]) {
 
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_w) {
-                        imageRect.y -= 24;
+                        playerRect.y -= 24;
+                        spriteIndex = 39;
                     }
                     if (event.key.keysym.sym == SDLK_a) {
-                        imageRect.x -= 24;
+                        playerRect.x -= 24;
+                        spriteIndex = 15;
                     }
                     if (event.key.keysym.sym == SDLK_s) {
-                        imageRect.y += 24;  
+                        playerRect.y += 24;
+                        spriteIndex = 3;
                     }
                     if (event.key.keysym.sym == SDLK_d) {
-                        imageRect.x += 24;
+                        playerRect.x += 27;
+                        spriteIndex = 27;
                     }
                     break;
             }
         }
 
         SDL_RenderClear(renderer);
-        
-        int scale = 3;
+                                
+        int scale = 3; // Using this to make tiles appear bigger
 
         renderMap(renderer, tileset, tileMap, tileWidth, tileHeight, scale);
+        
+        // This is to get the sprite tiles
+        int spriteWidth = 16;
+        int spriteHeight = 16;
+        int row = spriteIndex / spritesPerRow;
+        int col = spriteIndex % spritesPerRow;
 
-        SDL_RenderCopy(renderer, filberton, nullptr, &imageRect);  
+        SDL_Rect Filberton = {col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight}; // still calling the boy Filberton
+        SDL_RenderCopy(renderer, sprites, &Filberton, &playerRect);  
 
         SDL_RenderPresent(renderer);
     }
+    
+    // Cleanup
 
-    SDL_DestroyTexture(filberton);
+    SDL_DestroyTexture(tileset);
+    SDL_DestroyTexture(sprites);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
