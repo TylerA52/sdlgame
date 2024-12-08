@@ -73,6 +73,8 @@ int main(int argc, char* argv[]) {
     int spriteIndex = 3;
 
     SDL_Rect playerRect = {164, 224, 72, 72};
+    SDL_Rect NPC1Rect =  {400, 400, 72, 72};
+
 
     bool isRunning = true;
 
@@ -112,14 +114,21 @@ int main(int argc, char* argv[]) {
 
         renderMap(renderer, tileset, tileMap, tileWidth, tileHeight, scale);
         
-        // This is to get the sprite tiles
+        // This is to get the sprite tiles for the player - spriteIndex is for player sprites
         int spriteWidth = 16;
         int spriteHeight = 16;
         int row = spriteIndex / spritesPerRow;
         int col = spriteIndex % spritesPerRow;
+        
+        int npcIndex = 10;
+        int npcRow = npcIndex / spritesPerRow;
+        int npcCol = npcIndex % spritesPerRow;
 
         SDL_Rect Filberton = {col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight}; // still calling the boy Filberton
         SDL_RenderCopy(renderer, sprites, &Filberton, &playerRect);  
+        
+        SDL_Rect NPC1 = {npcCol * spriteWidth, npcRow * spriteHeight, spriteWidth, spriteHeight};
+        SDL_RenderCopy(renderer, sprites, &NPC1, &NPC1Rect);  
 
         SDL_RenderPresent(renderer);
     }
