@@ -53,6 +53,10 @@ void renderNpcs(SDL_Renderer* renderer, SDL_Texture* sprites, int spriteWidth, i
     SDL_Rect NPC2Rect = {600, 400, 72, 72};
     SDL_Rect NPC2 = {(49 % spritesPerRow) * spriteWidth, (49 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
     SDL_RenderCopy(renderer, sprites, &NPC2, &NPC2Rect);
+    
+    SDL_Rect NPC3Rect = {512, 244, 72, 72};
+    SDL_Rect NPC3 = {(55 % spritesPerRow) * spriteWidth, (55 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
+    SDL_RenderCopy(renderer, sprites, &NPC3, &NPC3Rect);
 
 }
 
