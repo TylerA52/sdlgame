@@ -43,4 +43,19 @@ void renderTile(SDL_Renderer* renderer, SDL_Texture* tileset, int tileIndex, int
     SDL_RenderCopy(renderer, tileset, &srcRect, &dstRect);
 }
 
+void renderNpcs(SDL_Renderer* renderer, SDL_Texture* sprites, int spriteWidth, int spriteHeight){
+    int spritesPerRow = 12;
+    
+    SDL_Rect NPC1Rect = {400, 400, 72, 72};
+    SDL_Rect NPC1 = {(10 % spritesPerRow) * spriteWidth, (10 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
+    SDL_RenderCopy(renderer, sprites, &NPC1, &NPC1Rect);
+    
+    SDL_Rect NPC2Rect = {600, 400, 72, 72};
+    SDL_Rect NPC2 = {(49 % spritesPerRow) * spriteWidth, (49 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
+    SDL_RenderCopy(renderer, sprites, &NPC2, &NPC2Rect);
+
+}
+
+
+
 

@@ -9,5 +9,7 @@ extern int tileMap[16][22];
 
 void renderMap(SDL_Renderer* renderer, SDL_Texture* tileset, int tileMap[16][22], int tileWidth, int tileHeight, int scale);
 void renderTile(SDL_Renderer* renderer, SDL_Texture* tileset, int tileIndex, int x, int y, int tileWidth, int tileHeight, int scale);
+void renderNpcs(SDL_Renderer* renderer, SDL_Texture* sprites, int spriteWidth, int spriteHeight);
+
 
 #endif
