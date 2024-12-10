@@ -1,0 +1,30 @@
+
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        std::cerr << "SDL Initialization failed: " << SDL_GetError() << '\n';
+        return 1;
+    }
+
+    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+        std::cerr << "SDL Image initialization failed: " << IMG_GetError() << '\n';
+        SDL_Quit();
+        return 1;
+    }
+
+    SDL_Window* window = SDL_CreateWindow("SDL2 Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                          windowWidth, windowHeight, SDL_WINDOW_SHOWN);
+
+    if (!window) {
+        std::cerr << "Window creation failed: " << SDL_GetError() << '\n';
+        SDL_Quit();
+        return 1;
+    }
+
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        std::cerr << "Renderer creation failed: " << SDL_GetError() << '\n';
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
+
+

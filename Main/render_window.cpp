@@ -1,6 +1,53 @@
-#include "game.h"
 #include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "render_window.h"
 
+
+render_window::render_window(const char* p_title, int p_w, int p_h)
+    :window(NULL), renderer(NULL) {
+    
+    window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, p_w, p_h, 
+             SDL_WINDOW_SHOWN);
+
+    if (window == NULL) {
+        std::cout << "Window failed to initialize: " << SDL_GetError() << std::endl;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+}
+
+SDL_Texture* render_window::loadTexture(const char* p_filePath){
+    SDL_Texture* texture = NULL;
+    texture = IMG_LoadTexture(renderer, p_filePath);
+
+    if (texture == NULL){
+        std::cout << "Failed to load texture: " << SDL_GetError() << std::endl;
+    }
+
+    return texture;
+}
+
+void render_window::clear(){
+    SDL_RenderClear(renderer);
+}
+
+void render_window::render(SDL_Texture* p_tex, SDL_Rect* src, SDL_Rect* dest){
+    SDL_RenderCopy(renderer, p_tex, src, dest);
+}
+
+void render_window::display(){
+    SDL_RenderPresent(renderer);
+}
+
+void render_window::cleanUp(){
+    SDL_DestroyWindow(window);
+}
+
+SDL_Renderer* render_window::getRenderer(){
+    return renderer;
+}
 
 int tileMap[16][22] = {
     {11, 11, 12, 12, 11, 12, 12, 11, 11, 11, 12, 12, 11, 12, 11, 12, 11, 11, 11, 21, 11, 65},
@@ -20,8 +67,6 @@ int tileMap[16][22] = {
     {11, 11, 12, 12, 11, 12, 12, 11, 11, 11, 12, 12, 65, 12, 11, 12, 11, 65, 11, 21, 11, 11},
     {11, 11, 12, 12, 11, 12, 11, 11, 11, 11, 12, 12, 11, 12, 11, 12, 11, 11, 12, 21, 11, 65}
 };
-
-
 
 void renderMap(SDL_Renderer* renderer, SDL_Texture* tileset, int tileMap[16][22], int tileWidth, int tileHeight, int scale) {
     for (int y = 0; y < 16; y++) {
@@ -59,6 +104,7 @@ void renderNpcs(SDL_Renderer* renderer, SDL_Texture* sprites, int spriteWidth, i
     SDL_RenderCopy(renderer, sprites, &NPC3, &NPC3Rect);
 
 }
+
 
 
 

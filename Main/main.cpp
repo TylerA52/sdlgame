@@ -1,4 +1,4 @@
-#include "game.h"
+#include "render_window.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -14,56 +14,24 @@ int main(int argc, char* argv[]) {
         windowHeight = std::atoi(argv[2]);
     }
     
-
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL Initialization failed: " << SDL_GetError() << '\n';
-        return 1;
-    }
-
-    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
-        std::cerr << "SDL Image initialization failed: " << IMG_GetError() << '\n';
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Window* window = SDL_CreateWindow("SDL2 Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                          windowWidth, windowHeight, SDL_WINDOW_SHOWN);
-
-    if (!window) {
-        std::cerr << "Window creation failed: " << SDL_GetError() << '\n';
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        std::cerr << "Renderer creation failed: " << SDL_GetError() << '\n';
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
+    render_window window("GAME", windowWidth, windowHeight);
+    SDL_Renderer* renderer = window.getRenderer();
     // Map Tileset
-
-    SDL_Texture* tileset = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/tileset/basictiles.png");
+    SDL_Texture* tileset = window.loadTexture("/home/tyler/Desktop/sdlgame/tileset/basictiles.png");
     if (!tileset) {
         std::cerr << "Error loading tileset image: " << IMG_GetError() << '\n';
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
 
     // Character sprites
-
-    SDL_Texture* sprites = IMG_LoadTexture(renderer, "/home/tyler/Desktop/sdlgame/Images/characters.png");
-    if (!tileset) {
+    SDL_Texture* sprites = window.loadTexture("/home/tyler/Desktop/sdlgame/Images/characters.png");
+    if (!sprites) {
         std::cerr << "Error loading tileset image: " << IMG_GetError() << '\n';
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
+    
 
     int tileWidth = 16;
     int tileHeight = 16;
@@ -106,7 +74,7 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        SDL_RenderClear(renderer);
+        window.clear();
                                 
         int scale = 3; // Using this to make tiles appear bigger
         
@@ -121,17 +89,16 @@ int main(int argc, char* argv[]) {
         int col = spriteIndex % spritesPerRow;
         
         SDL_Rect Filberton = {col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight}; // still calling the boy Filberton
-        SDL_RenderCopy(renderer, sprites, &Filberton, &playerRect);  
+        window.render(sprites, &Filberton, &playerRect);  
         
-        SDL_RenderPresent(renderer);
+        window.display();
     }
     
     // Cleanup
 
     SDL_DestroyTexture(tileset);
     SDL_DestroyTexture(sprites);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    window.cleanUp();
     SDL_Quit();
 
     return 0;
