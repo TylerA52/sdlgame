@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "render_window.h"
+#include "entity.h"
 
 
 render_window::render_window(const char* p_title, int p_w, int p_h)
@@ -33,8 +34,23 @@ void render_window::clear(){
     SDL_RenderClear(renderer);
 }
 
-void render_window::render(SDL_Texture* p_tex, SDL_Rect* src, SDL_Rect* dest){
-    SDL_RenderCopy(renderer, p_tex, src, dest);
+void render_window::render(Entity& p_entity){
+    
+    SDL_Rect src;
+    src.x = p_entity.getCurrentFrame().x; // This is the source - how do I get this????
+    src.y = p_entity.getCurrentFrame().y;
+    src.w = p_entity.getCurrentFrame().w;
+    src.h = p_entity.getCurrentFrame().h;
+
+    // Add transformations on all values
+    SDL_Rect dst;
+    dst.x = p_entity.getX();
+    dst.y = p_entity.getY();
+    dst.w = p_entity.getCurrentFrame().w * 4.5;
+    dst.h = p_entity.getCurrentFrame().h * 4.5;
+
+
+    SDL_RenderCopy(renderer, p_entity.getTex(), &src, &dst);
 }
 
 void render_window::display(){
@@ -48,6 +64,11 @@ void render_window::cleanUp(){
 SDL_Renderer* render_window::getRenderer(){
     return renderer;
 }
+
+
+
+
+
 
 int tileMap[16][22] = {
     {11, 11, 12, 12, 11, 12, 12, 11, 11, 11, 12, 12, 11, 12, 11, 12, 11, 11, 11, 21, 11, 65},
@@ -88,22 +109,7 @@ void renderTile(SDL_Renderer* renderer, SDL_Texture* tileset, int tileIndex, int
     SDL_RenderCopy(renderer, tileset, &srcRect, &dstRect);
 }
 
-void renderNpcs(SDL_Renderer* renderer, SDL_Texture* sprites, int spriteWidth, int spriteHeight){
-    int spritesPerRow = 12;
-    
-    SDL_Rect NPC1Rect = {400, 400, 72, 72};
-    SDL_Rect NPC1 = {(10 % spritesPerRow) * spriteWidth, (10 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
-    SDL_RenderCopy(renderer, sprites, &NPC1, &NPC1Rect);
-    
-    SDL_Rect NPC2Rect = {600, 400, 72, 72};
-    SDL_Rect NPC2 = {(49 % spritesPerRow) * spriteWidth, (49 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
-    SDL_RenderCopy(renderer, sprites, &NPC2, &NPC2Rect);
-    
-    SDL_Rect NPC3Rect = {512, 244, 72, 72};
-    SDL_Rect NPC3 = {(55 % spritesPerRow) * spriteWidth, (55 / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight};
-    SDL_RenderCopy(renderer, sprites, &NPC3, &NPC3Rect);
 
-}
 
 
 

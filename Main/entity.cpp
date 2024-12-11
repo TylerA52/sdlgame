@@ -2,11 +2,11 @@
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
 
-Entity::Entity(float p_x, float p_y, SDL_Texture* p_tex)
+Entity::Entity(int s_x, int s_y, float p_x, float p_y, SDL_Texture* p_tex)
 :x(p_x), y(p_y), tex(p_tex)
 {
-    currentFrame.x = 0; // This is the source - needs to change based on which part of the PNG I'm taking - how to do????
-    currentFrame.y = 0;
+    currentFrame.x = s_x * 16; // This is the source - needs to change based on which part of the PNG I'm taking - how to do????
+    currentFrame.y = s_y * 16;
     currentFrame.w = 16;
     currentFrame.h = 16;
 

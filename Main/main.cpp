@@ -1,4 +1,5 @@
 #include "render_window.h"
+#include "entity.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -32,6 +33,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
+    Entity playerTest(4, 0, 164, 224, sprites);
+    Entity npcGhost(7, 4, 760, 256, sprites);
+    Entity npcSlime(1, 4, 100, 500, sprites);
+    Entity npcSkeleton(10, 0, 560, 40, sprites);
+
+
+    SDL_Rect playerRect = {164, 224, 72, 72};
 
     int tileWidth = 16;
     int tileHeight = 16;
@@ -39,9 +47,7 @@ int main(int argc, char* argv[]) {
 
     int spritesPerRow = 12;
     int spriteIndex = 3;
-
-    SDL_Rect playerRect = {164, 224, 72, 72};
-
+    
     bool isRunning = true;
 
     SDL_Event event;
@@ -76,21 +82,15 @@ int main(int argc, char* argv[]) {
 
         window.clear();
                                 
-        int scale = 3; // Using this to make tiles appear bigger
+        int scale = 3; // Using this to make tiles appear bigger - can be put in the entity class?
         
-        int spriteWidth = 16;
-        int spriteHeight = 16;
 
         renderMap(renderer, tileset, tileMap, tileWidth, tileHeight, scale);
-        renderNpcs(renderer, sprites, spriteWidth, spriteHeight);
 
-        // This is to get the sprite tiles for the player - spriteIndex is for player sprites
-        int row = spriteIndex / spritesPerRow;
-        int col = spriteIndex % spritesPerRow;
-        
-        SDL_Rect Filberton = {col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight}; // still calling the boy Filberton
-        window.render(sprites, &Filberton, &playerRect);  
-        
+        window.render(playerTest);
+        window.render(npcGhost);
+        window.render(npcSkeleton);
+        window.render(npcSlime);
         window.display();
     }
     
