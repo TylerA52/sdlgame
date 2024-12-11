@@ -38,7 +38,6 @@ int main(int argc, char* argv[]) {
     Entity npcSlime(1, 4, 100, 500, sprites);
     Entity npcSkeleton(10, 0, 560, 40, sprites);
 
-
     SDL_Rect playerRect = {164, 224, 72, 72};
 
     int tileWidth = 16;
@@ -61,19 +60,19 @@ int main(int argc, char* argv[]) {
 
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_w) {
-                        playerRect.y -= 24;
+                        playerTest.setY(playerTest.getY() - 32); // how to access from header?
                         spriteIndex = 39;
                     }
                     if (event.key.keysym.sym == SDLK_a) {
-                        playerRect.x -= 24;
+                        playerTest.setX(playerTest.getX() - 32); 
                         spriteIndex = 15;
                     }
                     if (event.key.keysym.sym == SDLK_s) {
-                        playerRect.y += 24;
+                        playerTest.setY(playerTest.getY() + 32);
                         spriteIndex = 3;
                     }
                     if (event.key.keysym.sym == SDLK_d) {
-                        playerRect.x += 27;
+                        playerTest.setX(playerTest.getX() + 32);
                         spriteIndex = 27;
                     }
                     break;

@@ -20,6 +20,14 @@ float Entity::getY(){
     return y;
 }
 
+void Entity::setY(float newY) {
+    y = newY;
+}
+
+void Entity::setX(float newX) {
+    x = newX;
+}
+
 SDL_Texture* Entity::getTex(){
     return tex;
 }

@@ -53,6 +53,7 @@ void render_window::render(Entity& p_entity){
     SDL_RenderCopy(renderer, p_entity.getTex(), &src, &dst);
 }
 
+
 void render_window::display(){
     SDL_RenderPresent(renderer);
 }
